@@ -1,6 +1,7 @@
-import Head from 'next/head'
-import React, { Suspense } from 'react'
-const MovieCard = React.lazy(() => import("components/MovieCard"))
+import Head from 'next/head';
+import dynamic from 'next/dynamic';
+import React, { Suspense } from 'react';
+const MovieCard = dynamic(() => import('components/MovieCard'));
 
 export default function Home({ data }) {
   return (
@@ -12,20 +13,18 @@ export default function Home({ data }) {
       </Head>
 
       <main>
-        <h1>
-          Home Page
-        </h1>
+        <h1>Home Page</h1>
         <Suspense fallback={null}>{data.length && data.map((item, index) => <MovieCard key={index} />)}</Suspense>
       </main>
     </div>
-  )
+  );
 }
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`http://localhost:5555/users`)
-  const data = await res.json()
+  const res = await fetch(`http://localhost:5555/users`);
+  const data = await res.json();
 
   // Pass data to the page via props
-  return { props: { data } }
+  return { props: { data } };
 }
