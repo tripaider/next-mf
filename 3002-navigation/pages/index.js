@@ -1,9 +1,8 @@
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
-import React, { Suspense } from 'react';
-const MovieCard = dynamic(() => import('components/MovieCard'));
+import Link from 'next/Link'
 
-export default function Home({ data }) {
+export default function Nav({ data }) {
+  console.log('data', data)
   return (
     <div>
       <Head>
@@ -13,16 +12,17 @@ export default function Home({ data }) {
       </Head>
 
       <main>
-        <h1>Home Page</h1>
-        <Suspense fallback={null}>{data.length && data.map((item, index) => <MovieCard key={index} />)}</Suspense>
+        <ul>
+          {data.map(d => <li key={d.category_id}><Link href={d.category_listing_page_url}>{d.category_name}</Link></li>)}
+        </ul>
       </main>
     </div>
-  );
+  )
 }
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`http://localhost:5555/users`);
+  const res = await fetch(`http://localhost:5555/menu`);
   const data = await res.json();
 
   // Pass data to the page via props

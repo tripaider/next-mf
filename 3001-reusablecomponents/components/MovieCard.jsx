@@ -1,8 +1,8 @@
 import React from 'react'
 
-function MovieCard() {
+function MovieCard({item}) {
   return (
-    <div>Movie Card</div>
+    <div>{item?.name}</div>
   )
 }
 
